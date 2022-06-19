@@ -14,6 +14,9 @@ export default function Home() {
       <Link href="/staticSideRender">
         <a>Static Side Rendering</a>
       </Link>
+      <Link href="/clientSideRender">
+        <a>Client Side Rendering</a>
+      </Link>
     </div>
   )
 }

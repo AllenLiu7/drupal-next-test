@@ -9,7 +9,11 @@ function SSG({articles}) {
     <>
       <h2>Images</h2>
       {articles.map(Node => {
-        return <Image  src={toBaseUrl(Node.field_image.uri.url)} width={200} height={200}/>
+        return (
+          <div key={Node.field_image.id}>
+            <Image  src={toBaseUrl(Node.field_image.uri.url)} width={200} height={200} alt="image"/>
+          </div>
+        ) 
       })}
       
       <pre>{JSON.stringify(articles, undefined, 2)}</pre>
