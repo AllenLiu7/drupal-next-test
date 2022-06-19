@@ -1,14 +1,16 @@
 import Image from 'next/image'
 import { drupal } from "../lib/drupal"
 import {getParams} from "../lib/getParam"
+import {toBaseUrl} from "../lib/urlBuilder"
 
 function SSG({articles}) {
   console.log(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL)
   return (
     <>
-      {/* {data.included.map(image => {
-        <Image  src={image.attributes.uri.meta.}></Image>
-      })} */}
+      <h2>Images</h2>
+      {articles.map(Node => {
+        return <Image  src={toBaseUrl(Node.field_image.uri.url)} width={200} height={200}/>
+      })}
       
       <pre>{JSON.stringify(articles, undefined, 2)}</pre>
     </>
