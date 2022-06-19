@@ -19,8 +19,11 @@ function SSG({articles}) {
 export async function getStaticProps() {
   const articles = await drupal.getResourceCollection("node--article", {
     params: getParams()
-      .addFields('node--article', ["title","created","field_image","field_article_news", "field_opinion_list"])
       .addInclude(["field_image.uid", "field_article_news.field_media.field_media_image", "field_opinion_list"])
+      .addFields('node--article', ["title","created","field_image","field_article_news", "field_opinion_list"])
+      .addFields("node--news", ["title", "body", "field_media"])
+      .addFields("media--image", ["thumbnail"])
+      .addFields("file--file", ["uri"])
       .getQueryObject(),
   })
 
