@@ -39,7 +39,7 @@ function CSG() {
                   );
 
                   setData(articles);
-                  console.log(articles)
+                  //console.log(articles)
                  
           } catch (error) {
             console.log(error)
