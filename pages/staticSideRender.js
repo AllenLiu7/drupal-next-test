@@ -7,6 +7,7 @@ function SSG({ articles }) {
     console.log(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL);
     return (
         <>
+            <h2>Client Side Rendering</h2>
             <div className='d-flex flex-wrap container'>
                 {articles.map((node) => {
                     return (

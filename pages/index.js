@@ -14,6 +14,7 @@ export default function Home() {
                 />
                 <link rel='icon' href='/favicon.ico' />
             </Head>
+            <h2>Home Page</h2>
             <h3>Image in Image Component</h3>
             <div className={styles.heroWrap}>
                 <Image src='/pic.jpg' layout='fill' objectFit='cover' />
@@ -22,15 +23,21 @@ export default function Home() {
             <div className={styles.heroWrap}>
                 <img src='/pic.jpg' className={styles.img} />
             </div>
-            <div className='d-flex flex-column mt-5'>
+            <div className='d-flex flex-column m-5'>
                 <Link href='/staticSideRender'>
-                    <a>Static Side Rendering</a>
+                    <a className='m-3'>Static Side Rendering</a>
                 </Link>
                 <Link href='/serverSideRender'>
-                    <a>Server Side Rendering</a>
+                    <a className='m-3'>Server Side Rendering</a>
+                </Link>
+                <Link href='/serverSideRenderHome'>
+                    <a className='m-3'>Server Side Rendering Home</a>
                 </Link>
                 <Link href='/clientSideRender'>
-                    <a>Client Side Rendering</a>
+                    <a className='m-3'>Client Side Rendering</a>
+                </Link>
+                <Link href='/clientSideRenderImg'>
+                    <a className='m-3'>Client Side Rendering using img tag</a>
                 </Link>
             </div>
         </div>

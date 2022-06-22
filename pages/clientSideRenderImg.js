@@ -1,16 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { drupal } from '../lib/drupal';
 import { getParams } from '../lib/getParam';
 import { toBaseUrl } from '../lib/urlBuilder';
 
-function CSG() {
+function CSGImg() {
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [keyword, setKeyword] = useState('');
-    const [filterArr, setFilterArr] = useState([]);
-    const isFirstRender = useRef(true)
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,7 +40,6 @@ function CSG() {
                     }
                 );
 
-                setFilterArr(articles);
                 setData(articles);
                 //console.log(articles)
             } catch (error) {
@@ -56,69 +51,32 @@ function CSG() {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        if (isFirstRender.current) {
-            isFirstRender.current = false // toggle flag after first render/mounting
-            return;
-          }
-
-        if (keyword) {
-            let filteredData = data.filter((node) => {
-                return node.title.toLowerCase().includes(keyword);
-            });
-
-            setFilterArr(filteredData);
-        } else {
-            setFilterArr(data);
-         }
-
-         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [keyword])
-    
-
-    const handleChange = (e) => {
-        //set the search keyword
-        setKeyword(e.target.value);
-    };
-
-    const handleClick = () => {
-        //apply keyword to filter function
-        if (keyword) {
-            let filteredData = data.filter((node) => {
-                return node.title.toLowerCase().includes(keyword);
-            });
-
-            setFilterArr(filteredData);
-        } else {
-            setFilterArr(data);
-        }
-    };
-
     return (
-        <>
-            <h2>Client Side Rendering</h2>
+        <>  <h2>Client Side Rendering</h2>
             <div>
-                <input type='text' onChange={handleChange}/>
-                <button onClick={handleClick} >Filter</button>
+              <input type="text"/>
+              <button>Filter</button>
             </div>
             {isLoading ? (
                 <div>Loading ...</div>
             ) : (
                 <>
                     <div className='d-flex flex-wrap container'>
-                        {filterArr.map((node) => {
+                        {data.map((node) => {
                             return (
+                                // <div key={node.field_image.id} className="m-3 col-3 flex-wrap">
+                                //   <Image  src={toBaseUrl(node.field_image.uri.url)} width={200} height={200} alt="image" class="card-img-top"/>
+                                // </div>
                                 <div
                                     className='card col-3 m-2'
                                     key={node.field_image.id}
                                     style={{ width: '18rem' }}
                                 >
-                                    <Image
+                                    <img
                                         src={toBaseUrl(
                                             node.field_image.uri.url
                                         )}
-                                        width={200}
-                                        height={200}
+                                    
                                         alt='image'
                                         className='card-img-top'
                                     />
@@ -138,7 +96,7 @@ function CSG() {
                         })}
                     </div>
                     <div>
-                        <pre>{JSON.stringify(filterArr, undefined, 2)}</pre>
+                        <pre>{JSON.stringify(data, undefined, 2)}</pre>
                     </div>
                 </>
             )}
@@ -146,4 +104,4 @@ function CSG() {
     );
 }
 
-export default CSG;
+export default CSGImg;
