@@ -9,44 +9,30 @@ function CSG() {
     const [isLoading, setIsLoading] = useState(false);
     const [keyword, setKeyword] = useState('');
     const [filterArr, setFilterArr] = useState([]);
-    const isFirstRender = useRef(true)
-
+    const isFirstRender = useRef(true);
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
 
             try {
-                const articles = await drupal.getResourceCollection(
-                    'node--article',
-                    {
-                        params: getParams()
-                            .addInclude([
-                                'field_image.uid',
-                                'field_article_news.field_media.field_media_image',
-                                'field_opinion_list',
-                            ])
-                            .addFields('node--article', [
-                                'title',
-                                'created',
-                                'field_image',
-                                'field_article_news',
-                                'field_opinion_list',
-                            ])
-                            .addFields('node--news', [
-                                'title',
-                                'body',
-                                'field_media',
-                            ])
-                            .addFields('media--image', ['thumbnail'])
-                            .addFields('file--file', ['uri'])
-                            .getQueryObject(),
-                    }
-                );
+                const books = await drupal.getResourceCollection('node--book', {
+                    params: getParams()
+                        .addInclude(['field_image.uid'])
+                        .addFields('node--book', [
+                            'title',
+                            'created',
+                            'field_image',
+                        ])
+                        //.addFields('node--news', ['title', 'body', 'field_media'])
+                        //.addFields('media--image', ['thumbnail'])
+                        //.addFields('file--file', ['uri'])
+                        .getQueryObject(),
+                });
 
-                setFilterArr(articles);
-                setData(articles);
-                //console.log(articles)
+                setFilterArr(books);
+                setData(books);
+                //console.log(books)
             } catch (error) {
                 console.log(error);
             }
@@ -58,9 +44,9 @@ function CSG() {
 
     useEffect(() => {
         if (isFirstRender.current) {
-            isFirstRender.current = false // toggle flag after first render/mounting
+            isFirstRender.current = false; // toggle flag after first render/mounting
             return;
-          }
+        }
 
         if (keyword) {
             let filteredData = data.filter((node) => {
@@ -70,11 +56,10 @@ function CSG() {
             setFilterArr(filteredData);
         } else {
             setFilterArr(data);
-         }
+        }
 
-         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [keyword])
-    
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [keyword]);
 
     const handleChange = (e) => {
         //set the search keyword
@@ -98,8 +83,8 @@ function CSG() {
         <>
             <h2>Client Side Rendering</h2>
             <div>
-                <input type='text' onChange={handleChange}/>
-                <button onClick={handleClick} >Filter</button>
+                <input type='text' onChange={handleChange} />
+                <button onClick={handleClick}>Filter</button>
             </div>
             {isLoading ? (
                 <div>Loading ...</div>
@@ -110,18 +95,20 @@ function CSG() {
                             return (
                                 <div
                                     className='card col-3 m-2'
-                                    key={node.field_image.id}
+                                    key={node.field_image?.id}
                                     style={{ width: '18rem' }}
                                 >
-                                    <Image
-                                        src={toBaseUrl(
-                                            node.field_image.uri.url
-                                        )}
-                                        width={200}
-                                        height={200}
-                                        alt='image'
-                                        className='card-img-top'
-                                    />
+                                    {node.field_image ? (
+                                        <Image
+                                            src={toBaseUrl(
+                                                node.field_image?.uri?.url
+                                            )}
+                                            width={200}
+                                            height={200}
+                                            alt='image'
+                                            className='card-img-top'
+                                        />
+                                    ) : null}
                                     <div className='card-body'>
                                         <h5 className='card-title'>
                                             {node.title}

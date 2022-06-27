@@ -13,35 +13,22 @@ function CSGImg() {
             setIsLoading(true);
 
             try {
-                const articles = await drupal.getResourceCollection(
-                    'node--article',
-                    {
-                        params: getParams()
-                            .addInclude([
-                                'field_image.uid',
-                                'field_article_news.field_media.field_media_image',
-                                'field_opinion_list',
-                            ])
-                            .addFields('node--article', [
-                                'title',
-                                'created',
-                                'field_image',
-                                'field_article_news',
-                                'field_opinion_list',
-                            ])
-                            .addFields('node--news', [
-                                'title',
-                                'body',
-                                'field_media',
-                            ])
-                            .addFields('media--image', ['thumbnail'])
-                            .addFields('file--file', ['uri'])
-                            .getQueryObject(),
-                    }
-                );
+                const books = await drupal.getResourceCollection('node--book', {
+                    params: getParams()
+                        .addInclude(['field_image.uid'])
+                        .addFields('node--book', [
+                            'title',
+                            'created',
+                            'field_image',
+                        ])
+                        //.addFields('node--news', ['title', 'body', 'field_media'])
+                        //.addFields('media--image', ['thumbnail'])
+                        //.addFields('file--file', ['uri'])
+                        .getQueryObject(),
+                });
 
-                setData(articles);
-                //console.log(articles)
+                setData(books);
+                //console.log(books)
             } catch (error) {
                 console.log(error);
             }
@@ -52,11 +39,13 @@ function CSGImg() {
     }, []);
 
     return (
-        <>  <h2>Client Side Rendering</h2>
-            <div>
-              <input type="text"/>
-              <button>Filter</button>
-            </div>
+        <>
+            {' '}
+            <h2>Client Side Rendering</h2>
+            {/* <div>
+                <input type='text' />
+                <button>Filter</button>
+            </div> */}
             {isLoading ? (
                 <div>Loading ...</div>
             ) : (
@@ -69,17 +58,19 @@ function CSGImg() {
                                 // </div>
                                 <div
                                     className='card col-3 m-2'
-                                    key={node.field_image.id}
+                                    key={node.field_image?.id}
                                     style={{ width: '18rem' }}
                                 >
-                                    <img
-                                        src={toBaseUrl(
-                                            node.field_image.uri.url
-                                        )}
-                                    
-                                        alt='image'
-                                        className='card-img-top'
-                                    />
+                                    {node.field_image ? (
+                                        <img
+                                            src={toBaseUrl(
+                                                node.field_image.uri.url
+                                            )}
+                                            alt='image'
+                                            className='card-img-top'
+                                        />
+                                    ) : null}
+
                                     <div className='card-body'>
                                         <h5 className='card-title'>
                                             {node.title}

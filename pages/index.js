@@ -14,7 +14,7 @@ export default function Home() {
                 />
                 <link rel='icon' href='/favicon.ico' />
             </Head>
-            <h2>Home Page</h2>
+            <h1 className='mb-5'>Home Page (Static Side Rendering)</h1>
             <h3>Image in Image Component</h3>
             <div className={styles.heroWrap}>
                 <Image src='/pic.jpg' layout='fill' objectFit='cover' />
@@ -24,9 +24,6 @@ export default function Home() {
                 <img src='/pic.jpg' className={styles.img} />
             </div>
             <div className='d-flex flex-column m-5'>
-                <Link href='/staticSideRender'>
-                    <a className='m-3'>Static Side Rendering</a>
-                </Link>
                 <Link href='/serverSideRender'>
                     <a className='m-3'>Server Side Rendering</a>
                 </Link>
@@ -38,6 +35,12 @@ export default function Home() {
                 </Link>
                 <Link href='/clientSideRenderImg'>
                     <a className='m-3'>Client Side Rendering using img tag</a>
+                </Link>
+                <Link href='/staticSideRender'>
+                    <a className='m-3'>Static Side Rendering (Optimized in production)</a>
+                </Link>
+                <Link href='/revalidOnDemand'>
+                    <a className='m-3'>Revalidate On demand</a>
                 </Link>
             </div>
         </div>
